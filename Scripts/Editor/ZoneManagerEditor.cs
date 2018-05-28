@@ -21,7 +21,7 @@ public class ZoneManagerEditor : Editor {
         //base.OnInspectorGUI();
         manager.defaultZone = (Zone)EditorGUILayout.ObjectField("Default Zone", manager.defaultZone, typeof(Zone), false);
         manager.currentZone = (StringVariable)EditorGUILayout.ObjectField("Current Zone", manager.currentZone, typeof(StringVariable), false);
-
+        manager.loadDistance = EditorGUILayout.IntSlider("Load Distance", manager.loadDistance, 1, 10);
         EditorGUILayout.Space();
         if (GUILayout.Button("Find Zones"))
         {
@@ -58,6 +58,7 @@ public class ZoneManagerEditor : Editor {
                         Zone nZone = ScriptableObject.CreateInstance<Zone>();
                         nZone.zone = zone;
                         nZone.name = zone;
+                        nZone.display_name = zone;
                         AssetDatabase.CreateAsset(nZone, zone_path + zone + ".asset");
                         if (!manager.zones.Contains(nZone))
                             manager.zones.Add(nZone);

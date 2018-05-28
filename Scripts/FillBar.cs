@@ -17,13 +17,13 @@ public class FillBar : MonoBehaviour {
         switch (axes)
         {
             case Axes.X:
-                transform.localScale = new Vector3(inventory.fillPercent(), transform.localScale.y, transform.localScale.z);
+                transform.localScale = new Vector3(inventory.FillPercent(), transform.localScale.y, transform.localScale.z);
                 break;
             case Axes.Y:
-                transform.localScale = new Vector3(transform.localScale.x, inventory.fillPercent(), transform.localScale.z);
+                transform.localScale = new Vector3(transform.localScale.x, inventory.FillPercent(), transform.localScale.z);
                 break;
             case Axes.Z:
-                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, inventory.fillPercent());
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, inventory.FillPercent());
                 break;
         }
     }

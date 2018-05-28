@@ -10,23 +10,19 @@ public class SavePointEditor : Editor {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        if(savePoint.zone == null)
+        if (GUILayout.Button("Find Zone"))
         {
-            if(GUILayout.Button("Find Zone"))
+            Scene scene = savePoint.gameObject.scene;
+            string[] zones = AssetDatabase.FindAssets("t:Zone");
+            foreach (string z in zones)
             {
-                Scene scene = savePoint.gameObject.scene;
-                Debug.Log(scene.name);
-                string[] zones = AssetDatabase.FindAssets("t:Zone");
-                foreach (string z in zones)
-                {
-                    Zone zone = (Zone)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(z), typeof(Zone));
-                    if (zone.zone == scene.name)
-                        savePoint.zone = zone;
-                }
+                Zone zone = (Zone)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(z), typeof(Zone));
+                if (zone.zone == scene.name)
+                    savePoint.zone = zone;
             }
-        }
 
-        if(GUILayout.Button("Make Default Start"))
+        }
+        if (GUILayout.Button("Make Default Start"))
         {
             savePoint.transformVariable.InitialPosition = savePoint.transform.position;
             savePoint.transformVariable.InitialRotation = savePoint.transform.eulerAngles;

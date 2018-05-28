@@ -8,10 +8,12 @@ public class SavePoint : MonoBehaviour {
     public vp_SpawnPoint spawnPoint;
     public Color color = Color.green;
     public Zone zone;
+    public ZoneManager zoneManager;
 
     private Vector3 gizmoPos = new Vector3(0f, 1f, 0f);
     private Vector3 gizmoSize = new Vector3(1f, 2f, 1f);
 
+    public bool playerInside;
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
@@ -32,9 +34,17 @@ public class SavePoint : MonoBehaviour {
             spawnPoint.transform.position = transform.position;
             spawnPoint.transform.Rotate(transform.rotation.eulerAngles);
             saveObject.SaveData();
-            if (zone != null && GameController.gameController != null)
-                GameController.gameController.SetZone(zone.name);
+            if (zone != null && zoneManager != null)
+                zoneManager.SetZone(zone.zone);
+            Debug.Log("SavePoint::Zone = " + zone.zone);
+            playerInside = true;
         }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+            playerInside = false;
+
     }
 
     /// <summary>

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class GameEventListener : MonoBehaviour {
     public GameEvent Event;
     public UnityEvent Response;
+    //public UnityEvent<string> Message;
 
     private void OnEnable()
     {
@@ -18,5 +19,6 @@ public class GameEventListener : MonoBehaviour {
     public void OnEventRaised()
     {
         Response.Invoke();
+        
     }
 }

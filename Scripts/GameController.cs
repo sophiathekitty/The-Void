@@ -7,8 +7,7 @@ public class GameController : MonoBehaviour {
 
     public SaveObject gameSave;
     public SaveObject prefSave;
-    public StringVariable zoneName;
-    public List<Zone> zones;
+    public ZoneManager zoneManager;
     public string playerScene = "player";
     public string menuScene = "menu";
     private Dictionary<string, bool> loadedScenes = new Dictionary<string, bool>();
@@ -25,50 +24,23 @@ public class GameController : MonoBehaviour {
 
     public void NewGame()
     {
+        Debug.Log("GameController::NewGame");
         gameSave.clearSaveData();
         StartGame();
     }
     public void StartGame()
     {
+        Debug.Log("GameController::Start");
         LoadGame();
-        Unload(menuScene);
-        SetZone(zoneName.RuntimeValue);
-        Load(playerScene);
+        zoneManager.Unload(menuScene);
+        zoneManager.SetZone(zoneManager.currentZone.RuntimeValue,true);
+        zoneManager.Load(playerScene);
         Camera.main.GetComponent<AudioListener>().enabled = false;
     }
     public void QuitGame()
     {
         SaveGame();
         SceneManager.LoadScene(menuScene);
-    }
-    public void Load(string scene)
-    {
-        Debug.Log("load: "+scene);
-        if(!loadedScenes.ContainsKey(scene))
-            SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-    }
-    public void Unload(string scene)
-    {
-        Debug.Log("unload: "+scene);
-        if (loadedScenes.ContainsKey(scene))
-            SceneManager.UnloadSceneAsync(scene);
-    }
-
-    public void SetZone(string scene)
-    {
-        zoneName.RuntimeValue = scene;
-        foreach (Zone zone in zones)
-        {
-            if(zone.zone == scene ||
-                zone.Distance(scene) < 3)
-            {
-                Load(zone.zone);
-            }
-            else
-            {
-                Unload(zone.zone);
-            }
-        }
     }
 
     // Use this for initialization
@@ -113,13 +85,13 @@ public class GameController : MonoBehaviour {
     // scene loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name + ": " + mode.ToString());
+        Debug.Log("GameController::OnSceneLoaded("+scene.name + ": " + mode.ToString()+")");
         if(!loadedScenes.ContainsKey(scene.name))
             loadedScenes.Add(scene.name, true);
     }
     private void OnSceneUnloaded(Scene scene)
     {
-        Debug.Log(scene.name + ": unloaded");
+        Debug.Log("GameController::OnSceneUnLoaded(" + scene.name + ": UNLOADED)");
         if (loadedScenes.ContainsKey(scene.name))
             loadedScenes.Remove(scene.name);
     }

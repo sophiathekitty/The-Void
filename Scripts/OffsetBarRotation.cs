@@ -34,7 +34,7 @@ public class OffsetBarRotation : MonoBehaviour {
         float deg = OffsetDeg;
         if (float.IsNaN(deg))
            deg = 0;
-        Debug.Log(deg);
+//        Debug.Log(deg);
         barMain.rectTransform.localEulerAngles = new Vector3(0, 0, deg);
         foreach (Image bar in bars)
             bar.rectTransform.localEulerAngles = new Vector3(0, 0, deg);
